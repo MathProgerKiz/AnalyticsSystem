@@ -5,6 +5,9 @@ class Settings(BaseSettings):
     database_url: str = "sqlite+aiosqlite:///./analytics.db"
     debug: bool = True
 
+    #GIGACHAT CONFIG
+    AUTH_KEY_GIGACHAT: str
+
     class Config:
         env_file = ".env"
 
