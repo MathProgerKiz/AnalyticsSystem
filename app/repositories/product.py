@@ -3,7 +3,7 @@
 from app.models.product import Product
 
 
-class ProductRepositiries:
+class ProductRepository:
     def __init__(self,db):
         self.db = db 
     
@@ -16,6 +16,9 @@ class ProductRepositiries:
     
     async def get_product(self, product_id):
         return await self.db.get(Product, product_id)
+    
+    async def get_products(self):
+        return await self.db.scalars(Product).all()
     
     async def update_product(self, product_id, product_data):
         product = await self.get_product(product_id)
