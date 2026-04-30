@@ -7,6 +7,8 @@ from sqlalchemy import ForeignKey, Numeric, String, Integer, Text
 from app.core.database import Base
 from sqlalchemy.orm import Mapped,mapped_column, relationship
 
+from app.models import order
+
 
 class BrandFeature(Base):
     __tablename__ = 'brandfeature'
@@ -37,8 +39,9 @@ class Product(Base):
     product_type_id: Mapped[int] = mapped_column(ForeignKey('product_type.id'), nullable=False)
 
 
-    brand:Mapped['BrandFeature'] = relationship(back_populates='products')
-    product_type:Mapped['ProductType'] = relationship(back_populates='products')
+    brand:Mapped['BrandFeature'] = relationship(back_populates='products',lazy='selectin')
+    order_items:Mapped[List['order.OrderItem']] = relationship(back_populates='product')
+    product_type:Mapped['ProductType'] = relationship(back_populates='products',lazy='selectin')
 
 
 
