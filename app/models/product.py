@@ -2,7 +2,7 @@
 from decimal import Decimal
 from typing import List
 
-from sqlalchemy import Numeric, String,Integer,Text
+from sqlalchemy import ForeignKey, Numeric, String, Integer, Text
 
 from app.core.database import Base
 from sqlalchemy.orm import Mapped,mapped_column, relationship
@@ -33,6 +33,8 @@ class Product(Base):
     name:Mapped[str] = mapped_column(String(64),nullable=False)
     description: Mapped[str | None] = mapped_column(Text,nullable=True)
     price:Mapped[Decimal] = mapped_column(Numeric(10,2),nullable = False)
+    brand_id: Mapped[int] = mapped_column(ForeignKey('brandfeature.id'), nullable=False)
+    product_type_id: Mapped[int] = mapped_column(ForeignKey('product_type.id'), nullable=False)
 
 
     brand:Mapped['BrandFeature'] = relationship(back_populates='products')
