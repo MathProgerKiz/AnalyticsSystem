@@ -2,11 +2,15 @@ from dishka import make_async_container
 from dishka.integrations.fastapi import setup_dishka
 from fastapi import FastAPI
 
+from app.api.v1.brand import router as brand_router
 from app.api.v1.product import router as product_router
+from app.api.v1.product_type import router as product_type_router
 from app.dependency.product import AppProvider
 
 app = FastAPI()
+app.include_router(brand_router)
 app.include_router(product_router)
+app.include_router(product_type_router)
 
 container = make_async_container(AppProvider())
 setup_dishka(container, app)
