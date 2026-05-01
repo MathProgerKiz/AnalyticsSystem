@@ -1,5 +1,6 @@
 from langchain_gigachat.chat_models import GigaChat
-from app.core.settings import AUTH_KEY_GIGACHAT
+
+from app.core.settings import settings
 
 
 
@@ -10,6 +11,6 @@ def get_gigachat() -> GigaChat:
 
     """
     return GigaChat(
-        credentials=AUTH_KEY_GIGACHAT,
+        credentials=settings.AUTH_KEY_GIGACHAT,
         verify_ssl_certs=False,
     )
