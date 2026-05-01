@@ -1,8 +1,6 @@
-
-
 class AnalyticsService:
-    
-    @staticmethod   
+
+    @staticmethod
     async def query(prompt: str, analytics_repository) -> str:
         from app.llm.llm_manager import LLMManager
 

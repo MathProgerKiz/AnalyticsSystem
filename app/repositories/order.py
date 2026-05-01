@@ -27,8 +27,7 @@ class OrderRepository:
             raise ValueError(f"Products not found: {missing_ids}")
 
         return sum(
-            products[item["product_id"]].price * item["quantity"]
-            for item in items_data
+            products[item["product_id"]].price * item["quantity"] for item in items_data
         )
 
     async def create_order(self, order_data):

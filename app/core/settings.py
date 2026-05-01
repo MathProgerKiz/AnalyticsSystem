@@ -6,13 +6,16 @@ class Settings(BaseSettings):
     database_url: str = "sqlite+aiosqlite:///./analytics.db"
     debug: bool = True
 
-    
     AUTH_KEY_GIGACHAT: str
 
     @field_validator("debug", mode="before")
     @classmethod
     def parse_debug(cls, value):
-        if isinstance(value, str) and value.lower() in {"release", "prod", "production"}:
+        if isinstance(value, str) and value.lower() in {
+            "release",
+            "prod",
+            "production",
+        }:
             return False
         return value
 

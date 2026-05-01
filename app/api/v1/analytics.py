@@ -1,4 +1,3 @@
-
 import datetime
 
 from dishka.integrations.fastapi import FromDishka, inject
@@ -13,11 +12,7 @@ from app.schemas.analytics import (
 from app.services.analytics import AnalyticsService
 
 
-
-router = APIRouter(
-    prefix="/analytics",
-    tags=["analytics"]
-)
+router = APIRouter(prefix="/analytics", tags=["analytics"])
 
 
 @router.post("/query")

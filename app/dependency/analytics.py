@@ -17,4 +17,5 @@ class AppProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def analytics_repository(self, db: AsyncSession) -> "AnalyticsRepository":
         from app.analytics.analytics_repositories import AnalyticsRepository
+
         return AnalyticsRepository(db)

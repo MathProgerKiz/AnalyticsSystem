@@ -1,5 +1,3 @@
-
-
 from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -14,10 +12,11 @@ class ProductBase(BaseModel):
     price: Decimal
     brand_id: int
     product_type_id: int
-    
+
 
 class ProductCreate(ProductBase):
-    pass 
+    pass
+
 
 class ProductUpdate(BaseModel):
     name: str | None = Field(None, min_length=1, max_length=64)
@@ -26,8 +25,10 @@ class ProductUpdate(BaseModel):
     brand_id: int | None = None
     product_type_id: int | None = None
 
+
 class ProductDelete(BaseModel):
-    id:int 
+    id: int
+
 
 class ProductRead(ProductBase):
     model_config = ConfigDict(from_attributes=True)

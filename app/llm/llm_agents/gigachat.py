@@ -3,11 +3,9 @@ from langchain_gigachat.chat_models import GigaChat
 from app.core.settings import settings
 
 
-
-
 def get_gigachat() -> GigaChat:
     """
-     Возвращаем ИИ агента
+    Возвращаем ИИ агента
 
     """
     return GigaChat(
