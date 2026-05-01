@@ -3,6 +3,7 @@ from collections.abc import AsyncIterator
 from dishka import Provider, Scope, provide
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.analytics.analytics_repositories import AnalyticsRepository
 from app.core.database import async_session_maker
 from app.repositories.brand import BrandRepository
 from app.repositories.order import OrderRepository
@@ -42,6 +43,10 @@ class AppProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def order_item_repository(self, db: AsyncSession) -> OrderItemRepository:
         return OrderItemRepository(db)
+
+    @provide(scope=Scope.REQUEST)
+    def analytics_repository(self, db: AsyncSession) -> AnalyticsRepository:
+        return AnalyticsRepository(db)
 
     @provide(scope=Scope.REQUEST)
     def product_service(self, repository: ProductRepository) -> ProductService:
