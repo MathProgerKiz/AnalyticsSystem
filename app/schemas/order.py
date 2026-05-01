@@ -10,13 +10,12 @@ class OrderBase(BaseModel):
     total_price: Decimal = Field(..., ge=0)
 
 
-class OrderCreate(OrderBase):
-    items: list[OrderItemCreateNested] = Field(default_factory=list)
+class OrderCreate(BaseModel):
+    items: list[OrderItemCreateNested] = Field(..., min_length=1)
 
 
 class OrderUpdate(BaseModel):
-    total_price: Decimal | None = Field(None, ge=0)
-    items: list[OrderItemCreateNested] | None = None
+    items: list[OrderItemCreateNested] | None = Field(None, min_length=1)
 
 
 class OrderDelete(BaseModel):

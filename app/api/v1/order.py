@@ -17,7 +17,13 @@ async def create_order(
     order: OrderCreate,
     service: FromDishka[OrderService],
 ):
-    return await service.create_order(order.model_dump())
+    try:
+        return await service.create_order(order.model_dump())
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
 
 @router.get("/", response_model=list[OrderRead])
@@ -50,10 +56,16 @@ async def update_order(
     order: OrderUpdate,
     service: FromDishka[OrderService],
 ):
-    updated_order = await service.update_order(
-        order_id,
-        order.model_dump(exclude_unset=True),
-    )
+    try:
+        updated_order = await service.update_order(
+            order_id,
+            order.model_dump(exclude_unset=True),
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
     if updated_order is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

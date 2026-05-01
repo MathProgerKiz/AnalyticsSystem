@@ -21,7 +21,13 @@ async def create_order_item(
     order_item: OrderItemCreate,
     service: FromDishka[OrderItemService],
 ):
-    return await service.create_order_item(order_item.model_dump())
+    try:
+        return await service.create_order_item(order_item.model_dump())
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
 
 @router.get("/", response_model=list[OrderItemRead])
@@ -63,10 +69,16 @@ async def update_order_item(
     order_item: OrderItemUpdate,
     service: FromDishka[OrderItemService],
 ):
-    updated_order_item = await service.update_order_item(
-        order_item_id,
-        order_item.model_dump(exclude_unset=True),
-    )
+    try:
+        updated_order_item = await service.update_order_item(
+            order_item_id,
+            order_item.model_dump(exclude_unset=True),
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
     if updated_order_item is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -81,7 +93,13 @@ async def delete_order_item(
     order_item_id: int,
     service: FromDishka[OrderItemService],
 ):
-    deleted_order_item = await service.delete_order_item(order_item_id)
+    try:
+        deleted_order_item = await service.delete_order_item(order_item_id)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
     if deleted_order_item is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
