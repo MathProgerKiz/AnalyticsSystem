@@ -2,8 +2,6 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Literal
 
-from dishka import FromDishka
-
 if TYPE_CHECKING:
     from app.analytics.analytics_repositories import AnalyticsRepository
 
@@ -243,8 +241,8 @@ def get_analytics_tool(name: str) -> ToolDefinition:
 
 
 def get_analytics_tool_method(
+    analytics_repository: "AnalyticsRepository",
     name: str,
-    analytics_repository: FromDishka["AnalyticsRepository"]
 ) -> Callable[..., Any]:
     tool = get_analytics_tool(name)
 

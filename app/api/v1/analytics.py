@@ -21,8 +21,12 @@ router = APIRouter(
 
 
 @router.post("/query")
-async def quury_analytics(prompt: AnalyticsSchema) -> str:
-    return await AnalyticsService.query(prompt.query)
+@inject
+async def quury_analytics(
+    prompt: AnalyticsSchema,
+    analytics_repository: FromDishka[AnalyticsRepository],
+) -> str:
+    return await AnalyticsService.query(prompt.query, analytics_repository)
 
 
 @router.get("/brands/top", response_model=list[BrandSalesAnalyticsRead])
