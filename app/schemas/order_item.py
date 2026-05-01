@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.schemas.Product import ProductRead
@@ -8,7 +6,6 @@ from app.schemas.Product import ProductRead
 class OrderItemBase(BaseModel):
     product_id: int
     quantity: int = Field(..., gt=0)
-    unit_price: Decimal = Field(..., ge=0)
 
 
 class OrderItemCreate(OrderItemBase):
@@ -22,7 +19,6 @@ class OrderItemCreateNested(OrderItemBase):
 class OrderItemUpdate(BaseModel):
     product_id: int | None = None
     quantity: int | None = Field(None, gt=0)
-    unit_price: Decimal | None = Field(None, ge=0)
 
 
 class OrderItemDelete(BaseModel):

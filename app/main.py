@@ -4,6 +4,8 @@ from fastapi import FastAPI
 
 from app.api.v1.analytics import router as analytics_router
 from app.api.v1.brand import router as brand_router
+from app.api.v1.order import router as order_router
+from app.api.v1.order_item import router as order_item_router
 from app.api.v1.product import router as product_router
 from app.api.v1.product_type import router as product_type_router
 from app.dependency.product import AppProvider
@@ -12,6 +14,8 @@ app = FastAPI()
 app.include_router(brand_router)
 app.include_router(product_router)
 app.include_router(product_type_router)
+app.include_router(order_router)
+app.include_router(order_item_router)
 app.include_router(analytics_router)
 
 container = make_async_container(AppProvider())

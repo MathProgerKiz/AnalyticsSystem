@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -6,7 +7,7 @@ from app.schemas.order_item import OrderItemCreateNested, OrderItemRead
 
 
 class OrderBase(BaseModel):
-    status: str = Field(default="created", min_length=1, max_length=32)
+    total_price: Decimal = Field(..., ge=0)
 
 
 class OrderCreate(OrderBase):
@@ -14,7 +15,7 @@ class OrderCreate(OrderBase):
 
 
 class OrderUpdate(BaseModel):
-    status: str | None = Field(None, min_length=1, max_length=32)
+    total_price: Decimal | None = Field(None, ge=0)
     items: list[OrderItemCreateNested] | None = None
 
 
@@ -26,6 +27,5 @@ class OrderRead(OrderBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    created_at: datetime
-    updated_at: datetime
+    create_date: datetime
     items: list[OrderItemRead] = Field(default_factory=list)
