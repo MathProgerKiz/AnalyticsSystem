@@ -2,6 +2,8 @@ from dishka.integrations.fastapi import FromDishka, inject
 from fastapi import APIRouter, HTTPException, status
 
 from app.schemas.order import OrderCreate, OrderRead, OrderUpdate
+from app.schemas.order_item import OrderItemCreate, OrderItemRead
+from app.services.order_item import OrderItemService
 from app.services.order import OrderService
 
 
@@ -47,6 +49,28 @@ async def get_order(
             detail="Order not found",
         )
     return order
+
+
+@router.post(
+    "/{order_id}/items",
+    response_model=OrderItemRead,
+    status_code=status.HTTP_201_CREATED,
+)
+@inject
+async def add_order_item(
+    order_id: int,
+    order_item: OrderItemCreate,
+    service: FromDishka[OrderItemService],
+):
+    order_item_data = order_item.model_dump()
+    order_item_data["order_id"] = order_id
+    try:
+        return await service.create_order_item(order_item_data)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
 
 @router.patch("/{order_id}", response_model=OrderRead)

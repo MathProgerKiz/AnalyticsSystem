@@ -2,7 +2,6 @@ from dishka.integrations.fastapi import FromDishka, inject
 from fastapi import APIRouter, HTTPException, status
 
 from app.schemas.order_item import (
-    OrderItemCreate,
     OrderItemRead,
     OrderItemUpdate,
 )
@@ -13,21 +12,6 @@ router = APIRouter(
     prefix="/order-items",
     tags=["order items"],
 )
-
-
-@router.post("/", response_model=OrderItemRead, status_code=status.HTTP_201_CREATED)
-@inject
-async def create_order_item(
-    order_item: OrderItemCreate,
-    service: FromDishka[OrderItemService],
-):
-    try:
-        return await service.create_order_item(order_item.model_dump())
-    except ValueError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(exc),
-        ) from exc
 
 
 @router.get("/", response_model=list[OrderItemRead])

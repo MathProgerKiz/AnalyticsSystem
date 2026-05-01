@@ -9,7 +9,7 @@ class OrderItemBase(BaseModel):
 
 
 class OrderItemCreate(OrderItemBase):
-    order_id: int
+    pass
 
 
 class OrderItemCreateNested(OrderItemBase):
